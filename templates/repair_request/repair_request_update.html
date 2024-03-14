@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block title %}Crop{% endblock title %}
+{% block content %}
+<section class="content">
+    <div class="container-fluid">
+        <div class="row"> 
+            <div class="container">
+                <div class="row mt-5">
+                    <div class="col-md-6 offset-md-3">
+                        <div class="border bg-white p-3">
+                        
+                            <hr>
+                            <form method="POST">
+                                {% csrf_token %}
+                                <div class="col-12 mb-4">{{ form }}</div>
+                                <a href="{% url 'controller_ticket' %}" class="btn btn-secondary">Back</a>
+                                <input type="submit" value="Assign" class="btn btn-info">
+                            </form>                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+        
+{% endblock content %}

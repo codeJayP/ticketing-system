@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+    {% block content %}
+    <style>
+        .content .row {
+          display: flex;
+          justify-content: center;
+        }
+      </style>
+    <div class="row">
+        <!-- left column -->
+        <div class="col-md-4">
+          <!-- general form elements -->
+          <div class="card card-success">
+            <div class="card-header">
+            <h5>Add Users</h5>
+            </div>
+            <div class="text-center"></div>
+            <div class="card-body">
+                <form action="" method="post">
+                    {% csrf_token %}
+                    {% if messages %}
+                      <div style="color: rgb(248, 75, 75); font-style: italic; font-size: medium;">
+                        {% for message in messages %}
+                              <strong>{{ message }}</strong>
+                            {% endfor %}
+                      </div>
+                      {% endif %}
+                    <div class="input-group mb-3">
+                      {{add_user.username}}
+                      <div class="input-group-append">
+                        <div class="input-group-text bg-success">
+                          <span class="fas fa-user"></span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="input-group mb-3">
+                      {{add_user.first_name}}
+                      <div class="input-group-append">
+                        <div class="input-group-text bg-success">
+                          <span class="fas fa-user"></span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="input-group mb-3">
+                      {{add_user.last_name}}
+                      <div class="input-group-append">
+                        <div class="input-group-text bg-success">
+                          <span class="fas fa-user"></span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="input-group mb-3">
+                      {{add_user.email}}
+                      <div class="input-group-append">
+                        <div class="input-group-text bg-success">
+                          <span class="fas fa-envelope"></span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="input-group mb-3">
+                      {{add_user.password1}}
+                      <div class="input-group-append">
+                        <div class="input-group-text bg-success">
+                          <span class="fas fa-lock"></span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="input-group mb-3">
+                      {{add_user.password2}}
+                      <div class="input-group-append">
+                        <div class="input-group-text bg-success">
+                          <span class="fas fa-lock"></span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="input-group mb-3">
+                      {{add_user.role}}
+                      <div class="input-group-append">
+                        <div class="input-group-text bg-success">
+                          <span class="fas fa-users"></span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-12 mb-4">
+                      <button type="submit" class="btn btn-success btn-block">Add</button>
+                    </div>
+                </form>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    {% endblock content %}
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+<!-- {% include 'footer.html' %} -->
+</div>
+<!-- ./wrapper -->
+{% include 'scripts.html' %}
+</body>
+</html>

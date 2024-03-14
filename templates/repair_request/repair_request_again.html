@@ -1,0 +1,49 @@
+{% load static %}
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="{% static 'plugins/fontawesome-free/css/all.min.css' %}">
+  <!-- overlayScrollbars -->
+  <link rel="stylesheet" href="{% static 'plugins/icheck-bootstrap/icheck-bootstrap.min.css' %}">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="{% static 'dist/css/adminlte.min.css' %}">
+  <body class="hold-transition login-page">
+    <div class="login-box">
+      <!-- /.login-logo -->
+      <div class="card card-outline card-success">
+        <div class="card-header text-center">
+          <a href="{% url 'login' %}" class="h1"><b>IT</b>Help Desk</a><br>
+        </div>
+        <div class="text-center"><h4><i>(HOPSS)</i></h4></div>
+        <form method="post">
+          {% csrf_token %}
+          <div class="card-body">
+            {% if messages %}
+            <div class="alert" role="alert">
+              {% for message in messages %}
+              <h5 class="text-success"><i>{{ message }}</i></h5 class="text-success">
+              {% endfor %}
+            </div>
+            {% endif %} <br>
+            <div class="row">
+              <div class="col-6">
+                <div class="icheck-success">
+                
+                  <label for="remember">
+
+                  </label>
+                </div>
+              </div>
+              <!-- /.col -->
+              <div class="col-6">
+                <a href="{% url 'repair_request' %}" class="btn btn-secondary btn-block">Request Again</a>
+              </div>
+              <!-- /.col -->
+            </div>
+          </div>
+        </form>
+        <!-- /.card-body -->
+      </div>
+
+      <!-- /.card -->
+    </div>
+    <!-- /.login-box -->

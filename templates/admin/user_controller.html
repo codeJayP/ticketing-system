@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% block title %}
+Controller
+{% endblock title %}
+{% block chw %}
+<div class="row mb-2">
+  <div class="col-sm-6">
+    <h1 class="m-0">Tickets Logs</h1>
+  </div><!-- /.col -->
+  <div class="col-sm-6">
+    <ol class="breadcrumb float-sm-right">
+      <li class="breadcrumb-item"><a href="#">Home</a></li>
+      <li class="breadcrumb-item active">Tickets Logs</li>
+    </ol>
+  </div><!-- /.col -->
+</div>
+{% endblock chw %}
+{% block content %}
+<div class="container-fluid">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <table class="table table-hover">
+              <thead>
+                <tr class="bg-success">
+                  <th>USERNAME</th>
+                  <th>FIRST NAME</th>
+                  <th>LAST NAME</th>
+                  <th>ROLE</th> 
+                  <th>ACTION</th>
+                </tr>
+              </thead>
+              <tbody>
+              <tbody>
+                {% for user in users %}
+                <tr>
+                    <td>{{ user.username }}</td>
+                    <td>{{ user.first_name }}</td>
+                    <td>{{ user.last_name }}</td>
+                    <td>{{ user.groups.first.name }}</td>
+                    <td>
+                        <div class="col-4">
+                            <a href="{% url 'modify_user_role_controller' user.id %}" class="btn btn-success btn-block">Modify Role</a>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+
+            </tbody>
+            </table>
+            
+        </div>
+      </div>
+</div>
+{% endblock content %}

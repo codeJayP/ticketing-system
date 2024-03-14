@@ -1,0 +1,76 @@
+{% load static %}
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="{% static 'plugins/fontawesome-free/css/all.min.css' %}">
+  <!-- overlayScrollbars -->
+  <link rel="stylesheet" href="{% static 'plugins/icheck-bootstrap/icheck-bootstrap.min.css' %}">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="{% static 'dist/css/adminlte.min.css' %}">
+  <body class="hold-transition login-page">
+    <div class="login-box">
+      <!-- /.login-logo -->
+      <div class="card card-outline card-success">
+        <div class="card-header text-center">
+          <a href="{% url 'login' %}" class="h1"><b>IT</b>Help Desk</a><br>
+        </div>
+        <!-- <div class="text-center"><h4><i>(HOPSS)</i></h4></div> -->
+        <form method="post" id="repair-request-form">
+            {% csrf_token %}
+            {{ hopps_form.office.errors }}
+            <div class="card-body">
+                {{ hopps_form }} <br>
+                <div class="row">
+                    <div class="col-8">
+                        <div class="icheck-success">
+                            <label for="id_remember">
+                                <p class="mb-1">
+                                    <a href="{% url 'login' %}" class="text-primary">Back</a>
+                                </p>
+                            </label>
+                        </div>
+                    </div>
+                    <!-- /.col -->
+                    <div class="col-4">
+                        <button type="submit" class="btn btn-success btn-block">Submit</button>
+                    </div>
+                    <!-- /.col -->
+                </div>
+            </div>
+        </form>
+        
+        <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+        <script>
+            $(document).ready(function () {
+                function updateOfficeOptions() {
+                    var departmentId = $('#id_department').val();
+                    var officeSelect = $('#id_office');
+        
+                    // Clear current options
+                    officeSelect.empty();
+        
+                    $.ajax({
+                        url: '{% url "get_offices_by_department" %}',
+                        type: 'GET',
+                        data: { 'department_id': departmentId },
+                        success: function (data) {
+                            $.each(data.offices, function (key, value) {
+                                officeSelect.append($('<option>').text(value).attr('value', key));
+                            });
+                        },
+                        error: function () {
+                            console.error('Error fetching offices.');
+                        }
+                    });
+                }
+        
+                $('#id_department').change(updateOfficeOptions);
+                updateOfficeOptions();
+            });
+        </script>
+        
+        <!-- /.card-body -->
+      </div>
+
+      <!-- /.card -->
+    </div>
+    <!-- /.login-box -->

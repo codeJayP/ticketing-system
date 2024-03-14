@@ -1,0 +1,46 @@
+{% load static %}
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="{% static 'plugins/fontawesome-free/css/all.min.css' %}">
+  <!-- overlayScrollbars -->
+  <link rel="stylesheet" href="{% static 'plugins/icheck-bootstrap/icheck-bootstrap.min.css' %}">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="{% static 'dist/css/adminlte.min.css' %}">
+  <body class="hold-transition login-page">
+    <div class="login-box">
+      <!-- /.login-logo -->
+      <div class="card card-outline card-success">
+        <div class="card-header text-center">
+            <a href="{% url 'login' %}" class="h1"><b>IT</b>Help Desk</a><br>
+        </div>
+        <div class="text-center"><h4><i>(Department)</i></h4></div>
+        <section class="content">
+            <div class="container-fluid">
+              <div class="row">
+                <div class="col-12">
+                  <div class="card">    
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <a href="{% url 'hopps' %}" class="btn btn-success btn-block">HOPSS</a>
+                        <a href="{% url 'nursing' %}" class="btn btn-success btn-block">Nursing</a>
+                        <a href="{% url 'medical' %}" class="btn btn-success btn-block">Medical</a>
+                        <a href="{% url 'allied' %}" class="btn btn-success btn-block">Allied</a>
+                        <a href="{% url 'finance' %}" class="btn btn-success btn-block">Finance</a>
+                        <a href="{% url 'mcc' %}" class="btn btn-success btn-block">MCC</a>
+                    </div>
+                    <!-- /.card-body -->
+                  </div>
+                  <br>
+                  <!-- /.card -->
+                </div>
+                <!-- /.col -->
+              </div>
+              <!-- /.row -->
+            </div>
+            <!-- /.container-fluid -->
+        </section>
+        <!-- /.card-body -->
+      </div>
+      <!-- /.card -->
+    </div>
+    <!-- /.login-box -->
