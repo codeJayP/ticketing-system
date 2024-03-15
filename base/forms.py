@@ -44,20 +44,31 @@ class RepairRequestInfoForm(forms.ModelForm):
 
     class Meta:
         model = RepairRequest
-        fields = ['equip_type', 'property_num', 'serial_num', 'kind_of_work', 'status']
+        fields = ['equip_type', 'property_num', 'serial_num', 'kind_of_work', 'description_staff']
 
         widgets = {
             'equip_type': Select(attrs={'class': 'form-control'}),
-            'status': Select(attrs={'class': 'form-control'}),
             'property_num': forms.TextInput(attrs={'class': 'form-control', 'placeholder': ''}),
             'serial_num': forms.TextInput(attrs={'class': 'form-control', 'placeholder': ''}),
             'kind_of_work': forms.TextInput(attrs={'class': 'form-control', 'placeholder': ''}),
+            'description_staff': forms.CheckboxSelectMultiple()
         }
 
         labels = {
             'equip_type': 'Equioment Type',
             'property_num': 'Property Number',
             'serial_num': 'Serial Number',
+            'description_staff': 'Description'
+        }
+
+class StatusForm(forms.ModelForm):
+
+    class Meta:
+        model = RepairRequest
+        fields = ['status']
+
+        widgets = {
+            'status': Select(attrs={'class': 'form-control'}),
         }
 
 # Add user______________________________________________

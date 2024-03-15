@@ -74,11 +74,13 @@
                       <td>{{ rr.date }}</td>
                       <td>
                         <a href="{% url 'forasignstaff' rr.id %}">Add Info</a> &nbsp;
+                        <a class="btn btn-success" href="{% url 'forasignstaffstatus' rr.id %}">Status</a>
                           {% if not rr.complete %}
                               <a class="btn btn-success" href="{% url 'complete_request' rr.id %}">Complete</a>
                           {% else %}
                               <span class="badge badge-success">Complete</span>
                           {% endif %}
+                          
                       </td>
                       <!-- Add other columns as needed -->
                   </tr>

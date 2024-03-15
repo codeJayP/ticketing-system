@@ -22,6 +22,7 @@ urlpatterns = [
     path('repair_request_details/<int:event_id>/', repair_request_details, name='repair_request_details'),
     path('asign/<int:pk>/', asign, name='asign'),
     path('forasignstaff/<int:pk>/', forasignstaff, name='forasignstaff'),
+    path('forasignstaffstatus/<int:pk>/', forasignstaffstatus, name='forasignstaffstatus'),
     path('repair_request_again/', repair_request_again, name="repair_request_again"),
 
     path('login/', user_login, name='login'),

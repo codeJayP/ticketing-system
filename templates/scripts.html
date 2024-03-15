@@ -23,16 +23,15 @@
 <script src="{% static 'dist/js/pages/dashboard2.js' %}"></script>
 
 <script>
-    $(document).ready(function () {
-      // Get the current URL path
-      var currentPath = window.location.pathname;
-  
-      // Find the corresponding sidebar link and add the 'active' class to it
-      $('.nav-sidebar a').each(function () {
-        var linkPath = $(this).attr('href');
-        if (currentPath === linkPath) {
-          $(this).addClass('active');
-        }
-      });
+  $(document).ready(function () {
+    var currentPath = window.location.pathname;
+
+    $('.nav-sidebar a').each(function () {
+      var linkPath = $(this).attr('href');
+      if (currentPath === linkPath) {
+        $(this).addClass('active');
+        $(this).parents('li.nav-item').addClass('menu-open');
+      }
     });
+  });
 </script>

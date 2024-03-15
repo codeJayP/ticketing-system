@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User, Group
 import uuid
+from django.db.models import Count
 
 # Create your models here.
     
@@ -20,15 +21,21 @@ class KindOfEquipment(models.Model):
     def __str__(self):
         return self.name
     
+class RepairDescription(models.Model):
+    name = models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.name
+    
 class RepairRequest(models.Model):
     STATUS_CHOICES = (
-        ('pending', 'Pending'),
         ('ongoing', 'Ongoing'),
         ('complete', 'Complete'),
     )
     uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
     office = models.ForeignKey(Office, on_delete=models.CASCADE)
     department = models.ForeignKey(Department, on_delete=models.CASCADE)
+    description_staff = models.ForeignKey(RepairDescription, on_delete=models.CASCADE, null=True)
     first_name = models.CharField(max_length=50, blank=True, null=True)
     last_name = models.CharField(max_length=50, blank=True, null=True)
     equip_type = models.ForeignKey(KindOfEquipment, on_delete=models.CASCADE, null=True)
@@ -40,6 +47,8 @@ class RepairRequest(models.Model):
     kind_of_work = models.CharField(max_length=500, blank=True, null=True)
     complete = models.BooleanField(default=False)
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='pending')
+
+    staff_id = 1
 
 
     def __str__(self):

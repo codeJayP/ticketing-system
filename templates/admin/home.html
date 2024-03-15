@@ -76,5 +76,33 @@
     <!-- /.col -->
   </div>
   <!-- /.row -->
+  <div class="row">
+
+<div class="card">
+  <div class="card-header border-1">
+    <h3 class="card-title">Assign Staff</h3>
+    <div class="card-tools">
+    </div>
+  </div>
+  <div class="card-body table-responsive p-1">
+    <table class="table table-striped table-valign-middle">
+      <thead>
+      <tr>
+        <th>Staff</th>
+        <th>Repair Request</th>
+      </tr>
+      </thead>
+      <tbody>
+        {% for user in users_with_requests %}
+      <tr>
+        <td>{{ user.first_name }}</td>
+        <td>{{ user.total_requests }}</td>
+      </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+  </div>
 </div>
 {% endblock content %}

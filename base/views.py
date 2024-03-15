@@ -16,13 +16,15 @@ def index (request):
     total_repair_requests = RepairRequest.objects.count()
     ongoing = RepairRequest.objects.filter(status='ongoing').count()
     complete = RepairRequest.objects.filter(status='complete').count()
+    users_with_requests = users.annotate(total_requests=Count('repairrequest')).exclude(groups__name='controller')
 
 
     context = {
         'users': users,
         'total_repair_requests': total_repair_requests,
         'ongoing': ongoing,
-        'complete': complete
+        'complete': complete,
+        'users_with_requests': users_with_requests
     }
     return render(request, 'admin/home.html', context)
 
@@ -236,19 +238,21 @@ def staff(request):
     else:
         repair_requests = RepairRequest.objects.filter(complete=False).order_by('-date')
 
+    repair_requests_count = repair_requests.count()
+
     context = {
-        'repair_requests': repair_requests
+        'repair_requests': repair_requests,
+        'repair_requests_count': repair_requests_count
     }
     return render(request, 'staff/staff.html', context)
 
 def complete_request(request, request_id):
     repair_request = get_object_or_404(RepairRequest, id=request_id)
 
-    # Perform logic to mark the repair request as complete
     repair_request.complete = True
     repair_request.save()
 
-    return redirect('staff')
+    return redirect('controller_ticket')
 
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['staff'])
@@ -263,6 +267,18 @@ def forasignstaff(request, pk):
         form = RepairRequestInfoForm(instance=hopss)
     context = { 'form': form}
     return render(request, 'repair_request/repair_request_update_staff.html', context)
+
+def forasignstaffstatus(request, pk):
+    hopss = RepairRequest.objects.get(id=pk)
+    if request.method == 'POST':
+        form = StatusForm(request.POST, instance=hopss)
+        if form.is_valid():
+            form.save()
+            return redirect('controller_ticket')
+    else:
+        form = StatusForm(instance=hopss)
+    context = { 'form': form}
+    return render(request, 'repair_request/repair_status.html', context)
 
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['staff'])
