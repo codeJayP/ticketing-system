@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block chw %}
+<div class="row mb-2">
+  <div class="col-sm-6">
+    <h1 class="m-0">Dashboard</h1>
+  </div><!-- /.col -->
+  <div class="col-sm-6">
+    <ol class="breadcrumb float-sm-right">
+      <li class="breadcrumb-item"><a href="#">Home</a></li>
+      <li class="breadcrumb-item active">Dashboard</li>
+    </ol>
+  </div><!-- /.col -->
+</div>
+{% endblock chw %}
+{% block content %}
+<div class="container-fluid">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <table class="table table-hover">
+              <thead>
+                <tr class="bg-success">
+                  <th>Ticket ID</th>
+                  <th>Date</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for ver in verified_requests %}
+                <tr>
+                    <td><a href="{% url 'repair_request_details' ver.id %}">RR{{ ver.date|date:"Y" }}-000{{ ver.id }}</a></td>
+                <td>{{ ver.date }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+            
+            </table>
+            
+        </div>
+      </div>
+</div>
+{% endblock content %}

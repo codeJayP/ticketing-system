@@ -46,6 +46,7 @@ class RepairRequest(models.Model):
     serial_num = models.IntegerField(unique=True, null=True, blank=True)
     kind_of_work = models.CharField(max_length=500, blank=True, null=True)
     complete = models.BooleanField(default=False)
+    verified = models.BooleanField(default=False)
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='pending')
 
     staff_id = 1

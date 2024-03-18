@@ -23,33 +23,52 @@
                   <th>Ticket ID</th>
                   <th>Description</th>
                   <th>Date</th>
+                  <th>Status from Staff</th>
                   <!-- <th>Staff Assign</th> -->
                   <th>Action</th>
                   <!-- <th>Status</th> -->
                 </tr>
               </thead>
               <tbody>
+                <!-- controller_ticket.html -->
                 {% for hopss in hopps_list %}
-                <tr>
-                    <td><a href="{% url 'repair_request_details' hopss.id %}">RR{{ hopss.date|date:"Y" }}-000{{ hopss.id }}</a></td>
-                    <td>{{ hopss.description }}</td>
-                    <td>{{ hopss.date }}</td>
-                    <td>
-                      {% if hopss.status == 'complete' %}
-                          <span class="badge badge-success">Complete</span>
-                      {% elif hopss.status == 'ongoing' %}
-                          <span class="badge badge-info">Ongoing</span>
-                      {% else %}
-                          {% if hopss.staff %}
-                              <a class="btn btn-warning" href="{% url 'asign' hopss.id %}">Re-Assign</a>
-                          {% else %}
-                              <a class="btn btn-primary" href="{% url 'asign' hopss.id %}">Assign</a>
-                          {% endif %}
-                      {% endif %}
-                  </td>
-                    <!-- <td>{{ hopss.status }}</td> -->
-                </tr>
-                {% endfor %}
+    <tr>
+        <td><a href="{% url 'repair_request_details' hopss.id %}">RR{{ hopss.date|date:"Y" }}-000{{ hopss.id }}</a></td>
+        <td>{{ hopss.description }}</td>
+        <td>{{ hopss.date }}</td>
+        <td>{{ hopss.status }}</td>
+        <td>
+            {% if hopss.status == 'complete' %}
+                {% if not hopss.verified %}
+                    <form id="verify-form-{{ hopss.id }}" action="{% url 'verify_request' hopss.id %}" method="post">
+                        {% csrf_token %}
+                        <button type="button" onclick="verifyConfirmation('{{ hopss.id }}')" class="btn btn-success">Verify</button>
+                    </form>
+                {% else %}
+                    <span class="badge badge-success">Completely Verified</span>
+                {% endif %}
+            {% elif hopss.status == 'ongoing' %}
+                <span class="badge badge-info">Ongoing</span>
+            {% else %}
+                {% if hopss.staff %}
+                    <a class="btn btn-warning" href="{% url 'asign' hopss.id %}">Re-Assign</a>
+                {% else %}
+                    <a class="btn btn-primary" href="{% url 'asign' hopss.id %}">Assign</a>
+                {% endif %}
+            {% endif %}
+        </td>
+    </tr>
+{% endfor %}
+
+<script>
+    function verifyConfirmation(requestId) {
+        if (confirm('Are you sure you want to verify this request?')) {
+            document.getElementById('verify-form-' + requestId).submit();
+        }
+    }
+</script>
+
+
             </tbody>
             
             </table>

@@ -17,6 +17,8 @@ def index (request):
     ongoing = RepairRequest.objects.filter(status='ongoing').count()
     complete = RepairRequest.objects.filter(status='complete').count()
     users_with_requests = users.annotate(total_requests=Count('repairrequest')).exclude(groups__name='controller')
+    # office = Office.objects.annotate(total_requests=Count('repairrequest'))
+    verified_requests = RepairRequest.objects.filter(verified=True)
 
 
     context = {
@@ -24,9 +26,20 @@ def index (request):
         'total_repair_requests': total_repair_requests,
         'ongoing': ongoing,
         'complete': complete,
-        'users_with_requests': users_with_requests
+        'users_with_requests': users_with_requests,
+        # 'office': office
+        'verified_requests': verified_requests
     }
     return render(request, 'admin/home.html', context)
+
+@login_required(login_url='login')
+@admin_only
+def ticket_verified (request):
+    verified_requests = RepairRequest.objects.filter(verified=True)
+    context = {
+        'verified_requests': verified_requests
+    }
+    return render(request, 'admin/ticket_verified.html', context)
 
 @login_required(login_url='login')
 @admin_only
@@ -130,9 +143,8 @@ def controller_ticket(request):
         form = RepairRequestForm(request.POST)
         if form.is_valid():
             hopps = form.save(commit=False)
-            # Check if staff is assigned and if the user is a controller
             if hopps.staff and request.user.is_controller:
-                hopps.status = 'ongoing'  # Set status as ongoing
+                hopps.status = 'ongoing'
                 hopps.save()
                 return redirect('controller')
             else:
@@ -145,6 +157,20 @@ def controller_ticket(request):
         'form': form
     }
     return render(request, 'controller/controller_ticket.html', context)
+
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['controller'])
+def verify_request(request, request_id):
+    if request.method == 'POST':
+        repair_request = RepairRequest.objects.get(id=request_id)
+        if repair_request.status == 'complete':
+            repair_request.verified = True
+            repair_request.save()
+            return redirect('controller_ticket')
+        else:
+            return HttpResponse("Request not marked as complete")
+    else:
+        return HttpResponse("Invalid request")
 
 
 # Department
@@ -233,16 +259,10 @@ def get_offices_by_department(request):
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['staff'])
 def staff(request):
-    if request.user.groups.filter(name='staff').exists():
-        repair_requests = RepairRequest.objects.filter(staff=request.user, complete=False).order_by('-date')
-    else:
-        repair_requests = RepairRequest.objects.filter(complete=False).order_by('-date')
-
-    repair_requests_count = repair_requests.count()
+    repair_requests = RepairRequest.objects.filter(staff=request.user).exclude(status='complete')
 
     context = {
-        'repair_requests': repair_requests,
-        'repair_requests_count': repair_requests_count
+       'repair_requests': repair_requests
     }
     return render(request, 'staff/staff.html', context)
 
